@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Match | Logic Puzzle</title>
+    <meta name="description" content="A premium web version of the popular Number Match logic puzzle game.">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="game-container">
+        <header>
+            <div class="header-top">
+                <a href="../index.html" class="back-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Hub
+                </a>
+                <div class="score-container">
+                    <span class="score-label">SCORE</span>
+                    <span id="score" class="score-value">0</span>
+                </div>
+            </div>
+            <h1>Number Match</h1>
+        </header>
+
+        <div class="board-wrapper">
+            <div id="game-board" class="board">
+                <!-- Numbers will be injected here -->
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="add-numbers-btn" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Numbers
+            </button>
+            <button id="restart-btn" class="btn btn-secondary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 4v6h-6"></path>
+                    <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="game-over" class="modal hidden">
+            <div class="modal-content">
+                <h2>Well Done!</h2>
+                <p>You cleared the board!</p>
+                <div class="final-score">Score: <span id="final-score">0</span></div>
+                <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
