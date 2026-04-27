@@ -22,8 +22,9 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    align-items: flex-start;
+    padding: 2rem 0;
+    overflow-y: auto;
 }
 
 /* Background Blobs */
@@ -243,6 +244,22 @@ header p {
 
 .btn-small:hover {
     background: rgba(255, 255, 255, 0.2);
+}
+
+.result-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-primary-small {
+    background-color: var(--primary) !important;
+    color: white !important;
+    text-decoration: none;
+}
+
+.btn-primary-small:hover {
+    background-color: var(--primary-hover) !important;
 }
 
 /* Responsive adjustments */

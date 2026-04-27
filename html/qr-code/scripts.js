@@ -10,13 +10,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Html5Qrcode
     const html5QrCode = new Html5Qrcode("reader");
 
+    const visitBtn = document.getElementById('visit-btn');
+
+    const isValidUrl = (string) => {
+        try {
+            const url = new URL(string);
+            return url.protocol === "http:" || url.protocol === "https:";
+        } catch (_) {
+            return false;
+        }
+    };
+
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-        // Handle the scanned code as you like, for example:
         console.log(`Code matched = ${decodedText}`, decodedResult);
         
         // Update UI
         resultContent.textContent = decodedText;
         resultContainer.classList.remove('hidden');
+
+        // URL detection
+        if (isValidUrl(decodedText)) {
+            visitBtn.href = decodedText;
+            visitBtn.classList.remove('hidden');
+        } else {
+            visitBtn.classList.add('hidden');
+        }
         
         // Optional: Vibrate on success (mobile)
         if (navigator.vibrate) {
