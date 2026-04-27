@@ -169,13 +169,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Check win AFTER rows are removed
             if (checkWin()) {
-                showGameOver();
+                showGameOver(true);
+            } else if (addsLeft === 0 && !hasValidMoves()) {
+                showGameOver(false);
             }
         }, 400);
 
         score += 10;
         updateStats();
         selectedIndex = null;
+    };
+
+    const hasValidMoves = () => {
+        const unclearedIndices = [];
+        numbers.forEach((n, i) => { if (!n.cleared) unclearedIndices.push(i); });
+
+        for (let i = 0; i < unclearedIndices.length; i++) {
+            for (let j = i + 1; j < unclearedIndices.length; j++) {
+                if (isValidMatch(unclearedIndices[i], unclearedIndices[j])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 
     const checkAndRemoveEmptyRows = () => {
@@ -209,6 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (addsLeft <= 0) {
             addNumbersBtn.disabled = true;
             addNumbersBtn.style.opacity = '0.5';
+            
+            // If we just ran out of adds, check if we're stuck
+            if (!hasValidMoves()) {
+                showGameOver(false);
+            }
         }
 
         renderBoard();
@@ -225,12 +246,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return numbers.length === 0 || numbers.every(n => n.cleared);
     };
 
-    const showGameOver = () => {
-        gameOverModal.querySelector('h2').textContent = "Level " + level + " Cleared!";
-        gameOverModal.querySelector('p').textContent = "Ready for a harder puzzle?";
+    const showGameOver = (isWin) => {
+        if (isWin) {
+            gameOverModal.querySelector('h2').textContent = "Level " + level + " Cleared!";
+            gameOverModal.querySelector('p').textContent = "Ready for a harder puzzle?";
+            playAgainBtn.textContent = "Start Level " + (level + 1);
+            playAgainBtn.onclick = () => initGame(true);
+        } else {
+            gameOverModal.querySelector('h2').textContent = "Game Over!";
+            gameOverModal.querySelector('p').textContent = "No more moves possible.";
+            playAgainBtn.textContent = "Try Again";
+            playAgainBtn.onclick = () => initGame(false);
+        }
         finalScoreElement.textContent = score;
         gameOverModal.classList.remove('hidden');
-        playAgainBtn.textContent = "Start Level " + (level + 1);
     };
 
     // Event Listeners
