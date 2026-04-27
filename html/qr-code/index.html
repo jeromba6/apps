@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium QR Scanner</title>
+    <meta name="description" content="A premium, glassmorphic QR code scanner for web devices.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1>QR Scanner</h1>
+            <p>Scan any QR code instantly</p>
+        </header>
+
+        <div class="scanner-wrapper">
+            <div id="reader" class="scanner-view">
+                <!-- Camera stream will be rendered here -->
+                <div class="placeholder-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 12h10M12 7v10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="scan-animation"></div>
+        </div>
+
+        <div class="controls">
+            <button id="scan-btn" class="btn btn-primary">
+                <span class="btn-text">Start Scanning</span>
+            </button>
+            <button id="stop-btn" class="btn btn-secondary hidden">
+                <span class="btn-text">Stop Scanner</span>
+            </button>
+        </div>
+
+        <div id="result-container" class="result-card hidden">
+            <h3>Scan Result</h3>
+            <div id="result-content" class="result-content"></div>
+            <button id="copy-btn" class="btn btn-small">Copy Content</button>
+        </div>
+    </main>
+
+    <!-- html5-qrcode Library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
