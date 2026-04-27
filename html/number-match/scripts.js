@@ -7,25 +7,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalScoreElement = document.getElementById('final-score');
     const playAgainBtn = document.getElementById('play-again-btn');
 
+    const levelElement = document.getElementById('level');
+    const addsLeftElement = document.getElementById('adds-left');
+
     let numbers = [];
     let selectedIndex = null;
     let score = 0;
+    let level = 1;
+    let addsLeft = 5;
     const GRID_WIDTH = 9;
 
     // Initialize game
-    const initGame = () => {
-        score = 0;
-        updateScore();
+    const initGame = (isNewLevel = false) => {
+        if (!isNewLevel) {
+            score = 0;
+            level = 1;
+        } else {
+            level++;
+        }
+        
+        addsLeft = 5;
+        updateStats();
         
         const startNumbers = [];
-        // Generate 27 random numbers (3 rows)
-        for (let i = 0; i < 27; i++) {
+        // Difficulty: start with 3 rows, increase by 1 row per level
+        const rowCount = 2 + level;
+        for (let i = 0; i < rowCount * GRID_WIDTH; i++) {
             startNumbers.push(Math.floor(Math.random() * 9) + 1);
         }
         
         numbers = startNumbers.map(n => ({ value: n, cleared: false }));
         renderBoard();
         gameOverModal.classList.add('hidden');
+        addNumbersBtn.disabled = false;
+        addNumbersBtn.style.opacity = '1';
     };
 
     const renderBoard = () => {
@@ -151,15 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Check for empty rows and remove them
             checkAndRemoveEmptyRows();
+
+            // Check win AFTER rows are removed
+            if (checkWin()) {
+                showGameOver();
+            }
         }, 400);
 
         score += 10;
-        updateScore();
+        updateStats();
         selectedIndex = null;
-
-        if (checkWin()) {
-            showGameOver();
-        }
     };
 
     const checkAndRemoveEmptyRows = () => {
@@ -181,32 +197,46 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const addNumbers = () => {
+        if (addsLeft <= 0) return;
+
         const remaining = numbers.filter(n => !n.cleared).map(n => ({ value: n.value, cleared: false }));
         if (remaining.length === 0) return;
         
         numbers = [...numbers, ...remaining];
+        addsLeft--;
+        updateStats();
+
+        if (addsLeft <= 0) {
+            addNumbersBtn.disabled = true;
+            addNumbersBtn.style.opacity = '0.5';
+        }
+
         renderBoard();
-        // Scroll to bottom
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
 
-    const updateScore = () => {
+    const updateStats = () => {
         scoreElement.textContent = score;
+        levelElement.textContent = level;
+        addsLeftElement.textContent = addsLeft;
     };
 
     const checkWin = () => {
-        return numbers.every(n => n.cleared);
+        return numbers.length === 0 || numbers.every(n => n.cleared);
     };
 
     const showGameOver = () => {
+        gameOverModal.querySelector('h2').textContent = "Level " + level + " Cleared!";
+        gameOverModal.querySelector('p').textContent = "Ready for a harder puzzle?";
         finalScoreElement.textContent = score;
         gameOverModal.classList.remove('hidden');
+        playAgainBtn.textContent = "Start Level " + (level + 1);
     };
 
     // Event Listeners
     addNumbersBtn.addEventListener('click', addNumbers);
-    restartBtn.addEventListener('click', initGame);
-    playAgainBtn.addEventListener('click', initGame);
+    restartBtn.addEventListener('click', () => initGame(false));
+    playAgainBtn.addEventListener('click', () => initGame(true));
 
     // Initial load
     initGame();
