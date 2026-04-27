@@ -16,14 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const initGame = () => {
         score = 0;
         updateScore();
-        // Standard starting numbers for Number Match
+        
         const startNumbers = [];
-        // Row 1: 1-9
-        for (let i = 1; i <= 9; i++) startNumbers.push(i);
-        // Row 2: 1, 1, 1, 2, 1, 3, 1, 4, 1
-        startNumbers.push(1, 1, 1, 2, 1, 3, 1, 4, 1);
-        // Row 3: 5, 1, 6, 1, 7, 1, 8, 1, 9
-        startNumbers.push(5, 1, 6, 1, 7, 1, 8, 1, 9);
+        // Generate 27 random numbers (3 rows)
+        for (let i = 0; i < 27; i++) {
+            startNumbers.push(Math.floor(Math.random() * 9) + 1);
+        }
         
         numbers = startNumbers.map(n => ({ value: n, cleared: false }));
         renderBoard();
@@ -150,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cells[idx2].classList.remove('just-cleared', 'selected');
             cells[idx1].classList.add('cleared');
             cells[idx2].classList.add('cleared');
+            
+            // Check for empty rows and remove them
+            checkAndRemoveEmptyRows();
         }, 400);
 
         score += 10;
@@ -158,6 +159,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (checkWin()) {
             showGameOver();
+        }
+    };
+
+    const checkAndRemoveEmptyRows = () => {
+        let changed = false;
+        // Check rows from bottom to top to avoid index issues during splice
+        for (let i = Math.floor(numbers.length / GRID_WIDTH) - 1; i >= 0; i--) {
+            const start = i * GRID_WIDTH;
+            const row = numbers.slice(start, start + GRID_WIDTH);
+            
+            if (row.length === GRID_WIDTH && row.every(n => n.cleared)) {
+                numbers.splice(start, GRID_WIDTH);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            renderBoard();
         }
     };
 
