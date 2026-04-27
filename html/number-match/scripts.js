@@ -29,20 +29,71 @@ document.addEventListener('DOMContentLoaded', () => {
         addsLeft = 5;
         updateStats();
         
-        const startNumbers = [];
-        // Difficulty: start with 3 rows, increase by 1 row per level
+        // Difficulty scaling: reduce allowed direct matches as level increases
+        // Level 1: ~15 matches, Level 2: ~10, Level 3: ~5, Level 4+: 2 or less
+        const matchThreshold = Math.max(2, 20 - (level * 5));
+        
+        let startNumbers = [];
         const fullRows = 1 + level;
         const totalNumbers = (fullRows * GRID_WIDTH) + (Math.floor(Math.random() * (GRID_WIDTH - 1)) + 1);
         
-        for (let i = 0; i < totalNumbers; i++) {
-            startNumbers.push(Math.floor(Math.random() * 9) + 1);
-        }
+        // Attempt to generate a puzzle with limited direct matches
+        let attempts = 0;
+        do {
+            startNumbers = [];
+            for (let i = 0; i < totalNumbers; i++) {
+                startNumbers.push(Math.floor(Math.random() * 9) + 1);
+            }
+            attempts++;
+            // Don't loop forever, stop after 50 attempts
+        } while (countDirectMatches(startNumbers) > matchThreshold && attempts < 50);
         
         numbers = startNumbers.map(n => ({ value: n, cleared: false }));
         renderBoard();
         gameOverModal.classList.add('hidden');
         addNumbersBtn.disabled = false;
         addNumbersBtn.style.opacity = '1';
+    };
+
+    const countDirectMatches = (nums) => {
+        let count = 0;
+        const tempNumbers = nums.map(n => ({ value: n, cleared: false }));
+        
+        for (let i = 0; i < tempNumbers.length; i++) {
+            // Check only forward neighbors to avoid double counting
+            const neighbors = [i + 1, i + GRID_WIDTH, i + GRID_WIDTH - 1, i + GRID_WIDTH + 1];
+            neighbors.forEach(neighborIdx => {
+                if (neighborIdx < tempNumbers.length) {
+                    // Check if they are "naturally" adjacent
+                    if (isAdjacentIndices(i, neighborIdx)) {
+                        const val1 = tempNumbers[i].value;
+                        const val2 = tempNumbers[neighborIdx].value;
+                        if (val1 === val2 || val1 + val2 === 10) {
+                            count++;
+                        }
+                    }
+                }
+            });
+        }
+        return count;
+    };
+
+    const isAdjacentIndices = (idx1, idx2) => {
+        const r1 = Math.floor(idx1 / GRID_WIDTH);
+        const c1 = idx1 % GRID_WIDTH;
+        const r2 = Math.floor(idx2 / GRID_WIDTH);
+        const c2 = idx2 % GRID_WIDTH;
+        
+        const rowDiff = Math.abs(r1 - r2);
+        const colDiff = Math.abs(c1 - c2);
+        
+        // Direct adjacency (H, V, D) or Wrapped
+        if (rowDiff <= 1 && colDiff <= 1) return true;
+        
+        // Wrapped adjacency: idx2 is exactly 1 after idx1 in linear sequence
+        if (idx2 === idx1 + 1) return true;
+        
+        return false;
     };
 
     const renderBoard = () => {
