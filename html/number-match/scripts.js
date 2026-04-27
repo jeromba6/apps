@@ -31,8 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const startNumbers = [];
         // Difficulty: start with 3 rows, increase by 1 row per level
-        const rowCount = 2 + level;
-        for (let i = 0; i < rowCount * GRID_WIDTH; i++) {
+        const fullRows = 1 + level;
+        const totalNumbers = (fullRows * GRID_WIDTH) + (Math.floor(Math.random() * (GRID_WIDTH - 1)) + 1);
+        
+        for (let i = 0; i < totalNumbers; i++) {
             startNumbers.push(Math.floor(Math.random() * 9) + 1);
         }
         
