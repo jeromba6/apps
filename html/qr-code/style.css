@@ -89,6 +89,27 @@ header p {
     margin-bottom: 2rem;
 }
 
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--text-main);
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.15);
+}
+
 /* Scanner Wrapper */
 .scanner-wrapper {
     position: relative;
