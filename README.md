@@ -28,9 +28,8 @@ via een lichtgewicht, gedeeld vertaalsysteem zonder externe afhankelijkheden.
     Nederlands of Engels, dan is Engels de standaardtaal.
   - **Toepassen van teksten**: elementen met een `data-i18n="sleutel"`
     attribuut krijgen hun `textContent` ingevuld vanuit het vertaalwoordenboek
-    van die pagina. `data-i18n-html` doet hetzelfde maar met `innerHTML`
-    (voor teksten met opmaak), en `data-i18n-attr="attribuut:sleutel"` vult
-    een specifiek HTML-attribuut (bv. `placeholder` of `alt`).
+    van die pagina, en `data-i18n-attr="attribuut:sleutel"` vult een
+    specifiek HTML-attribuut (bv. `placeholder` of `alt`).
   - **Taalkeuzeknop**: een NL/EN-knoppenpaar wordt automatisch toegevoegd aan
     de `<header>` van de pagina, met de actieve taal gemarkeerd.
   - **Wisselen van taal**: een klik op de knop slaat de nieuwe voorkeur op in

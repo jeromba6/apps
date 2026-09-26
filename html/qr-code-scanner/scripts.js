@@ -1,5 +1,10 @@
-import { readBarcodes } from 'https://cdn.jsdelivr.net/npm/zxing-wasm@3.1.4/dist/es/reader/index.js';
+import { readBarcodes, setZXingModuleOverrides } from './vendor/zxing-wasm/index.js';
 import { getQrTechnicalInfo } from './qr-technical.js';
+
+// Self-hosted wasm binary: point the reader at our local copy instead of a CDN.
+setZXingModuleOverrides({
+    locateFile: (path, prefix) => new URL(`./vendor/zxing-wasm/${path}`, import.meta.url).href,
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const scanBtn = document.getElementById('scan-btn');
@@ -137,6 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const startScanning = async () => {
+        if (!navigator.mediaDevices?.getUserMedia) {
+            alert(window.APP_I18N.t('scanner.cameraUnsupported'));
+            return;
+        }
+
         placeholderIcon.hidden = true;
         scanAnimation.style.display = 'block';
 
@@ -214,6 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
     scanBtn.addEventListener('click', startScanning);
     stopBtn.addEventListener('click', stopScanning);
 
+    // If the browser has no camera API at all, disable the button up front
+    // instead of waiting for the user to click and hit an error.
+    if (!navigator.mediaDevices?.getUserMedia) {
+        scanBtn.disabled = true;
+        scanBtn.title = window.APP_I18N.t('scanner.cameraUnsupported');
+    }
+
     uploadBtn.addEventListener('click', () => uploadInput.click());
 
     uploadInput.addEventListener('change', (event) => {
@@ -223,16 +240,47 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadInput.value = '';
     });
 
+    const showCopiedFeedback = () => {
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = window.APP_I18N.t('result.copiedButton');
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+        }, 2000);
+    };
+
+    // Fallback for browsers/contexts without the async Clipboard API
+    // (e.g. non-secure contexts or older browsers).
+    const legacyCopy = (text) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        let succeeded = false;
+        try {
+            succeeded = document.execCommand('copy');
+        } catch (err) {
+            succeeded = false;
+        }
+        document.body.removeChild(textarea);
+        return succeeded;
+    };
+
     copyBtn.addEventListener('click', () => {
         const text = resultContent.textContent;
-        navigator.clipboard.writeText(text).then(() => {
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = window.APP_I18N.t('result.copiedButton');
-            setTimeout(() => {
-                copyBtn.textContent = originalText;
-            }, 2000);
-        }).catch(err => {
-            console.error('Failed to copy: ', err);
-        });
+        if (navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText(text).then(showCopiedFeedback).catch((err) => {
+                console.error('Failed to copy: ', err);
+                if (legacyCopy(text)) {
+                    showCopiedFeedback();
+                }
+            });
+        } else if (legacyCopy(text)) {
+            showCopiedFeedback();
+        } else {
+            console.error('Clipboard copy is not supported in this browser.');
+        }
     });
 });

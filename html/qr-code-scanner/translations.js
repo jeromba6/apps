@@ -13,6 +13,7 @@ window.SCANNER_DICT = {
             stopButton: 'Stop Scanner',
             uploadButton: 'Upload QR Image',
             cameraError: "Could not access camera. Please ensure you've granted permissions.",
+            cameraUnsupported: 'Camera access is not supported in this browser. Please use the upload option instead.',
         },
         upload: {
             noQr: 'No valid QR code was found in this image.',
@@ -70,6 +71,7 @@ window.SCANNER_DICT = {
             stopButton: 'Stop Scanner',
             uploadButton: 'Upload QR-afbeelding',
             cameraError: 'Kon geen toegang krijgen tot de camera. Zorg dat je toestemming hebt gegeven.',
+            cameraUnsupported: 'Camera-toegang wordt niet ondersteund in deze browser. Gebruik in plaats daarvan de upload-optie.',
         },
         upload: {
             noQr: 'Geen geldige QR-code gevonden in deze afbeelding.',

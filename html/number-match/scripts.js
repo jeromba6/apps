@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let level = 1;
     let addsLeft = 5;
+    let lastFocusedBeforeModal = null;
     const GRID_WIDTH = 9;
 
     // Initialize game
@@ -53,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverModal.classList.add('hidden');
         addNumbersBtn.disabled = false;
         addNumbersBtn.style.opacity = '1';
+
+        // Return keyboard focus to a sensible spot after the modal closes.
+        if (lastFocusedBeforeModal) {
+            lastFocusedBeforeModal = null;
+            restartBtn.focus();
+        }
     };
 
     const countDirectMatches = (nums) => {
@@ -105,7 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.textContent = item.value;
             cell.dataset.index = index;
 
+            // Accessibility: make each cell a focusable, keyboard-operable button.
+            cell.setAttribute('role', 'button');
+            cell.setAttribute('aria-label', String(item.value));
+            if (item.cleared) {
+                cell.setAttribute('aria-disabled', 'true');
+                cell.tabIndex = -1;
+            } else {
+                cell.tabIndex = 0;
+            }
+
             cell.addEventListener('click', () => handleCellClick(index));
+            cell.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+                    event.preventDefault();
+                    handleCellClick(index);
+                }
+            });
             gameBoard.appendChild(cell);
         });
     };
@@ -134,8 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const cells = gameBoard.querySelectorAll('.number-cell');
         if (highlight) {
             cells[index].classList.add('selected');
+            cells[index].setAttribute('aria-pressed', 'true');
         } else {
             cells[index].classList.remove('selected');
+            cells[index].removeAttribute('aria-pressed');
         }
     };
 
@@ -314,6 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         finalScoreElement.textContent = score;
         gameOverModal.classList.remove('hidden');
+
+        // Move keyboard focus into the modal, and remember where to return it.
+        lastFocusedBeforeModal = document.activeElement;
+        playAgainBtn.focus();
     };
 
     // Event Listeners

@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Number Match | Logic Puzzle</title>
     <meta name="description" content="A premium web version of the popular Number Match logic puzzle game.">
-    <!-- Google Fonts: Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/shared-components.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-i18n-title="meta.title">
@@ -54,7 +51,7 @@
         </header>
 
         <div class="board-wrapper">
-            <div id="game-board" class="board">
+            <div id="game-board" class="board" role="group" aria-label="Number grid">
                 <!-- Numbers will be injected here -->
             </div>
         </div>
@@ -75,7 +72,7 @@
             </button>
         </div>
 
-        <div id="game-over" class="modal hidden">
+        <div id="game-over" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="game-over-title" tabindex="-1">
             <div class="modal-content">
                 <h2 id="game-over-title">Well Done!</h2>
                 <p id="game-over-message">You cleared the board!</p>

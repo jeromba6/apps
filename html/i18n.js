@@ -79,11 +79,6 @@
             if (value != null) el.textContent = value;
         });
 
-        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
-            const value = lookup(dict, lang, el.getAttribute('data-i18n-html'));
-            if (value != null) el.innerHTML = value;
-        });
-
         document.querySelectorAll('[data-i18n-attr]').forEach((el) => {
             el.getAttribute('data-i18n-attr').split(',').forEach((pair) => {
                 const [attr, key] = pair.split(':').map((part) => part.trim());
