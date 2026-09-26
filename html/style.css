@@ -393,7 +393,7 @@ input[type="range"]:disabled {
     place-items: center;
     width: var(--logo-width, 44px);
     height: var(--logo-height, 44px);
-    padding: var(--logo-padding, 5px);
+    padding: var(--logo-padding-y, 5px) var(--logo-padding-x, 5px);
     background: #fff;
 }
 

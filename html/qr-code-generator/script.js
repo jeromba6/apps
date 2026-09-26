@@ -83,12 +83,45 @@ function getLogoBounds(size) {
   };
 }
 
-function updateLogoPreview() {
-  const bounds = getLogoBounds(QR_RENDER_SIZE);
-  logoPreview.style.setProperty("--logo-width", `${bounds.width}px`);
-  logoPreview.style.setProperty("--logo-height", `${bounds.height}px`);
-  logoPreview.style.setProperty("--logo-padding", `${bounds.padding}px`);
+// Breidt de logo-uitsparing uit tot de volledige modules die de logo-afbeelding
+// (deels) overlappen, zodat er nooit een module half zichtbaar/half wit blijft.
+function getSnappedLogoBounds(size) {
+  const raw = getLogoBounds(size);
+
+  if (!moduleCount) {
+    return { ...raw, snappedX: raw.x, snappedY: raw.y, snappedWidth: raw.width, snappedHeight: raw.height };
+  }
+
+  const tile = size / moduleCount;
+  const colStart = Math.max(0, Math.floor(raw.x / tile));
+  const colEnd = Math.min(moduleCount, Math.ceil((raw.x + raw.width) / tile));
+  const rowStart = Math.max(0, Math.floor(raw.y / tile));
+  const rowEnd = Math.min(moduleCount, Math.ceil((raw.y + raw.height) / tile));
+
+  return {
+    ...raw,
+    colStart,
+    colEnd,
+    rowStart,
+    rowEnd,
+    snappedX: colStart * tile,
+    snappedY: rowStart * tile,
+    snappedWidth: (colEnd - colStart) * tile,
+    snappedHeight: (rowEnd - rowStart) * tile,
+  };
 }
+
+function updateLogoPreview() {
+  const bounds = getSnappedLogoBounds(QR_RENDER_SIZE);
+  const imageWidth = bounds.width - bounds.padding * 2;
+  const imageHeight = bounds.height - bounds.padding * 2;
+
+  logoPreview.style.setProperty("--logo-width", `${bounds.snappedWidth}px`);
+  logoPreview.style.setProperty("--logo-height", `${bounds.snappedHeight}px`);
+  logoPreview.style.setProperty("--logo-padding-x", `${(bounds.snappedWidth - imageWidth) / 2}px`);
+  logoPreview.style.setProperty("--logo-padding-y", `${(bounds.snappedHeight - imageHeight) / 2}px`);
+}
+
 
 logoMargin.addEventListener("input", () => {
   logoMarginValue.value = `${logoMargin.value}%`;
@@ -162,18 +195,18 @@ function downloadFile(href, filename) {
 function drawLogo(context, qrSize, offset) {
   if (!logoDataUrl) return;
 
-  const { x, y, width, height, padding } = getLogoBounds(qrSize);
-  const availableWidth = width - padding * 2;
-  const availableHeight = height - padding * 2;
+  const bounds = getSnappedLogoBounds(qrSize);
+  const availableWidth = bounds.width - bounds.padding * 2;
+  const availableHeight = bounds.height - bounds.padding * 2;
   const scale = Math.min(availableWidth / logoImage.naturalWidth, availableHeight / logoImage.naturalHeight);
   const imageWidth = logoImage.naturalWidth * scale;
   const imageHeight = logoImage.naturalHeight * scale;
   context.fillStyle = "#ffffff";
-  context.fillRect(x + offset, y + offset, width, height);
+  context.fillRect(bounds.snappedX + offset, bounds.snappedY + offset, bounds.snappedWidth, bounds.snappedHeight);
   context.drawImage(
     logoImage,
-    x + offset + (width - imageWidth) / 2,
-    y + offset + (height - imageHeight) / 2,
+    bounds.x + offset + (bounds.width - imageWidth) / 2,
+    bounds.y + offset + (bounds.height - imageHeight) / 2,
     imageWidth,
     imageHeight,
   );
@@ -203,19 +236,25 @@ downloadSvgButton.addEventListener("click", () => {
 
   const quietZone = 1;
   const size = model.moduleCount + quietZone * 2;
+  const bounds = getSnappedLogoBounds(model.moduleCount);
   const paths = [];
 
   for (let row = 0; row < model.moduleCount; row += 1) {
     for (let column = 0; column < model.moduleCount; column += 1) {
-      if (model.modules[row][column]) {
+      const underLogo =
+        logoDataUrl &&
+        column >= bounds.colStart &&
+        column < bounds.colEnd &&
+        row >= bounds.rowStart &&
+        row < bounds.rowEnd;
+      if (model.modules[row][column] && !underLogo) {
         paths.push(`M${column + quietZone} ${row + quietZone}h1v1h-1z`);
       }
     }
   }
 
-  const { x, y, width, height, padding } = getLogoBounds(model.moduleCount);
   const logo = logoDataUrl
-    ? `<rect x="${x + quietZone}" y="${y + quietZone}" width="${width}" height="${height}" fill="#fff"/><image href="${logoDataUrl}" x="${x + quietZone + padding}" y="${y + quietZone + padding}" width="${width - padding * 2}" height="${height - padding * 2}" preserveAspectRatio="xMidYMid meet"/>`
+    ? `<rect x="${bounds.snappedX + quietZone}" y="${bounds.snappedY + quietZone}" width="${bounds.snappedWidth}" height="${bounds.snappedHeight}" fill="#fff"/><image href="${logoDataUrl}" x="${bounds.x + quietZone + bounds.padding}" y="${bounds.y + quietZone + bounds.padding}" width="${bounds.width - bounds.padding * 2}" height="${bounds.height - bounds.padding * 2}" preserveAspectRatio="xMidYMid meet"/>`
     : "";
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path fill="#202322" d="${paths.join("")}"/>${logo}</svg>`;
   const blob = new Blob([svg], { type: "image/svg+xml" });
