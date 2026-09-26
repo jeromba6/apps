@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Maak direct een QR-code voor iedere URL, met optioneel logo.">
+    <title>QR Code Generator | jvgemert</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <h1>QR Code Generator</h1>
+        <p>Maak in seconden een scanbare QR-code voor iedere URL, inclusief eigen logo.</p>
+    </header>
+
+    <main class="grid">
+        <section class="card">
+            <div class="badge">Instellingen</div>
+            <div class="card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+            </div>
+
+            <form id="qr-form" novalidate>
+                <div class="field">
+                    <label for="url-input">Website-URL</label>
+                    <div class="input-row">
+                        <input
+                            id="url-input"
+                            name="url"
+                            type="text"
+                            inputmode="url"
+                            autocomplete="url"
+                            placeholder="https://jouwwebsite.nl"
+                            aria-describedby="url-error"
+                            autofocus
+                        >
+                        <button type="submit">
+                            Genereer
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="correction-level">Foutcorrectie</label>
+                    <select id="correction-level" name="correction-level">
+                        <option value="L">Laag — herstelt tot 7%</option>
+                        <option value="M" selected>Gemiddeld — herstelt tot 15%</option>
+                        <option value="Q">Hoog — herstelt tot 25%</option>
+                        <option value="H">Zeer hoog — herstelt tot 30%</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="logo-input">Logo in het midden <span class="optional">optioneel</span></label>
+                    <div class="file-row">
+                        <input id="logo-input" name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+                        <button id="remove-logo-button" class="remove-logo" type="button" hidden>Verwijderen</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="logo-size">Grootte van logo <output id="logo-size-value" for="logo-size">23%</output></label>
+                    <input id="logo-size" name="logo-size" type="range" min="10" max="35" value="23" step="1" disabled>
+                </div>
+
+                <div class="field">
+                    <label for="logo-margin">Witte marge rond logo <output id="logo-margin-value" for="logo-margin">16%</output></label>
+                    <input id="logo-margin" name="logo-margin" type="range" min="0" max="30" value="16" step="1" disabled>
+                </div>
+
+                <p id="url-error" class="error" role="alert"></p>
+            </form>
+        </section>
+
+        <section id="result" class="card card-result" hidden>
+            <div class="badge">Resultaat</div>
+            <div id="qr-panel" class="qr-panel">
+                <div id="qr-code" aria-label="Gegenereerde QR-code"></div>
+                <div id="logo-preview" class="logo-preview" hidden>
+                    <img id="logo-image" alt="Gekozen logo">
+                </div>
+            </div>
+
+            <div class="result-details">
+                <h2>Je QR-code is klaar</h2>
+                <p id="result-url" class="result-url"></p>
+            </div>
+
+            <div class="actions">
+                <button id="download-button" class="button-primary" type="button">
+                    Download PNG
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+                <button id="download-svg-button" class="button-secondary" type="button">
+                    Download SVG
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Je URL en logo verlaten je browser niet — alles wordt lokaal gegenereerd.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
