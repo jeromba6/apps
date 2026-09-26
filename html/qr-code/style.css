@@ -157,6 +157,7 @@ header p {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -197,6 +198,28 @@ header p {
 
 .hidden {
     display: none !important;
+}
+
+.btn-upload {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    border: 1px dashed var(--glass-border);
+    width: 100%;
+}
+
+.btn-upload:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.upload-error {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(244, 63, 94, 0.15);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    color: #fb7185;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-align: center;
 }
 
 /* Result Card */
@@ -256,6 +279,51 @@ header p {
     background-color: var(--primary) !important;
     color: white !important;
     text-decoration: none;
+}
+
+/* Technical Info */
+.tech-info {
+    margin-top: 1.25rem;
+}
+
+.tech-info h4 {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tech-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.6rem;
+}
+
+.tech-info-item {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+}
+
+.tech-info-item .label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+}
+
+.tech-info-item .value {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.tech-info-note {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.6rem;
 }
 
 .btn-primary-small:hover {

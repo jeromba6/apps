@@ -43,7 +43,13 @@
             <button id="stop-btn" class="btn btn-secondary hidden">
                 <span class="btn-text">Stop Scanner</span>
             </button>
+            <button id="upload-btn" class="btn btn-small btn-upload">
+                <span class="btn-text">Upload QR-afbeelding</span>
+            </button>
+            <input id="upload-input" type="file" accept="image/*" class="hidden">
         </div>
+
+        <p id="upload-error" class="upload-error hidden"></p>
 
         <div id="result-container" class="result-card hidden">
             <h3>Scan Result</h3>
@@ -52,11 +58,16 @@
                 <button id="copy-btn" class="btn btn-small">Copy Content</button>
                 <a id="visit-btn" href="#" target="_blank" class="btn btn-small btn-primary-small hidden">Visit URL</a>
             </div>
+
+            <div id="tech-info" class="tech-info hidden">
+                <h4>Technische informatie</h4>
+                <div id="tech-info-grid" class="tech-info-grid"></div>
+                <p class="tech-info-note">Redundantie = percentage van de codewoorden dat foutcorrectiedata is (geen gebruikersdata). Codewoord-capaciteit is de ruwe databytes-capaciteit voor deze versie/ECC-combinatie (incl. ~1-2 bytes overhead voor mode-/lengte-indicator, die niet in "databytes gebruikt" is meegeteld). De encoderingsmodus is een schatting op basis van de inhoud, niet uitgelezen uit de originele encoder.</p>
+            </div>
         </div>
     </main>
 
-    <!-- html5-qrcode Library -->
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    <script src="scripts.js"></script>
+    <!-- QR decoding: zxing-wasm (loaded as ES module in scripts.js) -->
+    <script type="module" src="scripts.js"></script>
 </body>
 </html>
