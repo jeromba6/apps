@@ -1,78 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium QR Scanner</title>
-    <meta name="description" content="A premium, glassmorphic QR code scanner for web devices.">
-    <!-- Google Fonts: Inter -->
+    <title>QR Scanner | jvgemert</title>
+    <meta name="description" content="Scan direct een QR-code met je camera of upload een afbeelding, inclusief technische details.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div class="background-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
+    <div class="bg-gradient"></div>
 
-    <main class="container">
-        <header>
-            <a href="../index.html" class="back-link">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
+    <header>
+        <a href="../index.html" class="back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Hub
+        </a>
+        <h1>QR Scanner</h1>
+        <p>Scan een QR-code met je camera of upload een afbeelding.</p>
+    </header>
+
+    <main class="scanner-main">
+        <section class="card card-scanner">
+            <div class="badge">Scanner</div>
+            <div class="card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/>
+                    <path d="M7 12h10M12 7v10"/>
                 </svg>
-                Hub
-            </a>
-            <h1>QR Scanner</h1>
-            <p>Scan any QR code instantly</p>
-        </header>
+            </div>
 
-        <div class="scanner-wrapper">
-            <div id="reader" class="scanner-view">
-                <!-- Camera stream will be rendered here -->
-                <div class="placeholder-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M7 12h10M12 7v10" stroke-linecap="round" stroke-linejoin="round"/>
+            <div class="scanner-panel">
+                <div id="reader" class="scanner-view">
+                    <div class="placeholder-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 12h10M12 7v10" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="scan-animation"></div>
+            </div>
+
+            <div class="actions">
+                <button id="scan-btn" type="button">
+                    Start Scanning
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 7l-7 5 7 5V7z"></path>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                     </svg>
+                </button>
+                <button id="stop-btn" type="button" class="button-secondary" hidden>Stop Scanner</button>
+                <button id="upload-btn" type="button" class="button-secondary">
+                    Upload QR-afbeelding
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </button>
+                <input id="upload-input" type="file" accept="image/*" hidden>
+            </div>
+
+            <p id="upload-error" class="error" role="alert" hidden></p>
+
+            <div id="result-container" class="result-block" hidden>
+                <h3>Scan resultaat</h3>
+                <div id="result-content" class="result-content"></div>
+                <div class="actions">
+                    <button id="copy-btn" type="button" class="button-secondary">Copy Content</button>
+                    <a id="visit-btn" href="#" target="_blank" class="button-secondary" hidden>Visit URL</a>
+                </div>
+
+                <div id="tech-info" class="tech-info" hidden>
+                    <h4>Technische informatie</h4>
+                    <div id="tech-info-grid" class="tech-info-grid"></div>
+                    <p class="tech-info-note">Redundantie = percentage van de codewoorden dat foutcorrectiedata is (geen gebruikersdata). Codewoord-capaciteit is de ruwe databytes-capaciteit voor deze versie/ECC-combinatie (incl. ~1-2 bytes overhead voor mode-/lengte-indicator, die niet in "databytes gebruikt" is meegeteld). De encoderingsmodus is een schatting op basis van de inhoud, niet uitgelezen uit de originele encoder.</p>
                 </div>
             </div>
-            <div class="scan-animation"></div>
-        </div>
-
-        <div class="controls">
-            <button id="scan-btn" class="btn btn-primary">
-                <span class="btn-text">Start Scanning</span>
-            </button>
-            <button id="stop-btn" class="btn btn-secondary hidden">
-                <span class="btn-text">Stop Scanner</span>
-            </button>
-            <button id="upload-btn" class="btn btn-small btn-upload">
-                <span class="btn-text">Upload QR-afbeelding</span>
-            </button>
-            <input id="upload-input" type="file" accept="image/*" class="hidden">
-        </div>
-
-        <p id="upload-error" class="upload-error hidden"></p>
-
-        <div id="result-container" class="result-card hidden">
-            <h3>Scan Result</h3>
-            <div id="result-content" class="result-content"></div>
-            <div class="result-actions">
-                <button id="copy-btn" class="btn btn-small">Copy Content</button>
-                <a id="visit-btn" href="#" target="_blank" class="btn btn-small btn-primary-small hidden">Visit URL</a>
-            </div>
-
-            <div id="tech-info" class="tech-info hidden">
-                <h4>Technische informatie</h4>
-                <div id="tech-info-grid" class="tech-info-grid"></div>
-                <p class="tech-info-note">Redundantie = percentage van de codewoorden dat foutcorrectiedata is (geen gebruikersdata). Codewoord-capaciteit is de ruwe databytes-capaciteit voor deze versie/ECC-combinatie (incl. ~1-2 bytes overhead voor mode-/lengte-indicator, die niet in "databytes gebruikt" is meegeteld). De encoderingsmodus is een schatting op basis van de inhoud, niet uitgelezen uit de originele encoder.</p>
-            </div>
-        </div>
+        </section>
     </main>
+
+    <footer>
+        <p>Alles wordt lokaal in je browser gescand — er wordt niets geüpload naar een server.</p>
+    </footer>
 
     <!-- QR decoding: zxing-wasm (loaded as ES module in scripts.js) -->
     <script type="module" src="scripts.js"></script>

@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     video.muted = true;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    video.classList.add('scanner-view');
 
     let mediaStream = null;
     let scanTimer = null;
@@ -78,22 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
         addTechRow('Gespiegeld', info.isMirrored ? 'ja' : 'nee');
         addTechRow('ECI aanwezig', info.hasECI ? 'ja' : 'nee');
 
-        techInfo.classList.remove('hidden');
+        techInfo.hidden = false;
     };
 
     const handleDecodedResult = (readResult) => {
         const decodedText = readResult.text;
         console.log(`Code matched = ${decodedText}`, readResult);
 
-        uploadError.classList.add('hidden');
+        uploadError.hidden = true;
         resultContent.textContent = decodedText;
-        resultContainer.classList.remove('hidden');
+        resultContainer.hidden = false;
 
         if (isValidUrl(decodedText)) {
             visitBtn.href = decodedText;
-            visitBtn.classList.remove('hidden');
+            visitBtn.hidden = false;
         } else {
-            visitBtn.classList.add('hidden');
+            visitBtn.hidden = true;
         }
 
         renderTechnicalInfo(readResult);
@@ -134,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const startScanning = async () => {
-        placeholderIcon.classList.add('hidden');
+        placeholderIcon.hidden = true;
         scanAnimation.style.display = 'block';
 
         try {
@@ -146,12 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
             await video.play();
 
             scanning = true;
-            scanBtn.classList.add('hidden');
-            stopBtn.classList.remove('hidden');
+            scanBtn.hidden = true;
+            stopBtn.hidden = false;
             scanFrame();
         } catch (err) {
             console.error('Failed to start scanning', err);
-            placeholderIcon.classList.remove('hidden');
+            placeholderIcon.hidden = false;
             scanAnimation.style.display = 'none';
             alert("Could not access camera. Please ensure you've granted permissions.");
         }
@@ -170,18 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (video.parentNode) {
             video.parentNode.removeChild(video);
         }
-        scanBtn.classList.remove('hidden');
-        stopBtn.classList.add('hidden');
+        scanBtn.hidden = false;
+        stopBtn.hidden = true;
         scanAnimation.style.display = 'none';
-        placeholderIcon.classList.remove('hidden');
+        placeholderIcon.hidden = false;
         console.log('Scanner stopped.');
     };
 
     const showUploadError = (message) => {
-        resultContainer.classList.add('hidden');
-        techInfo.classList.add('hidden');
+        resultContainer.hidden = true;
+        techInfo.hidden = true;
         uploadError.textContent = message;
-        uploadError.classList.remove('hidden');
+        uploadError.hidden = false;
     };
 
     const decodeUploadedFile = async (file) => {
@@ -189,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scanning) {
             stopScanning();
         }
-        uploadError.classList.add('hidden');
+        uploadError.hidden = true;
 
         try {
             const results = await readBarcodes(file, {
@@ -225,10 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(text).then(() => {
             const originalText = copyBtn.textContent;
             copyBtn.textContent = 'Copied!';
-            copyBtn.classList.add('btn-primary');
             setTimeout(() => {
                 copyBtn.textContent = originalText;
-                copyBtn.classList.remove('btn-primary');
             }, 2000);
         }).catch(err => {
             console.error('Failed to copy: ', err);

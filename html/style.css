@@ -461,6 +461,144 @@ footer {
     text-align: center;
 }
 
+/* QR Scanner */
+.scanner-main {
+    width: 100%;
+    max-width: 480px;
+}
+
+.card-scanner {
+    align-items: stretch;
+}
+
+.scanner-panel {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.scanner-view {
+    width: 100%;
+    height: 100%;
+}
+
+.scanner-view video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.placeholder-icon {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.placeholder-icon svg {
+    width: 64px;
+    height: 64px;
+}
+
+.scan-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--primary), transparent);
+    box-shadow: 0 0 15px var(--primary);
+    z-index: 10;
+    display: none;
+    animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+.result-block {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--glass-border);
+    text-align: left;
+}
+
+.result-block h3 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.result-content {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    padding: 1rem;
+    border-radius: 14px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    word-break: break-all;
+    margin-bottom: 1rem;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.tech-info {
+    margin-top: 1.5rem;
+}
+
+.tech-info h4 {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tech-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.6rem;
+}
+
+.tech-info-item {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+}
+
+.tech-info-item .label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+}
+
+.tech-info-item .value {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.tech-info-note {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.6rem;
+}
+
 @media (max-width: 640px) {
     header h1 {
         font-size: 2.5rem;
@@ -473,7 +611,8 @@ footer {
         flex-direction: column;
     }
 
-    .actions button {
+    .actions button,
+    .actions a {
         width: 100%;
     }
 }
