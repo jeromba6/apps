@@ -103,7 +103,6 @@ header p {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    margin-bottom: 1rem;
     padding: 0.4rem 0.9rem;
     border-radius: 100px;
     border: 1px solid var(--glass-border);
