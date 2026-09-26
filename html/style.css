@@ -363,6 +363,17 @@ input[type="range"]:disabled {
     gap: 1.5rem;
 }
 
+.png-resolution-field {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.png-resolution-field label {
+    justify-content: center;
+}
+
 .qr-panel {
     position: relative;
     display: grid;

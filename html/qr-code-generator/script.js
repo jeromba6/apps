@@ -16,6 +16,7 @@ const qrContainer = document.querySelector("#qr-code");
 const qrPanel = document.querySelector("#qr-panel");
 const downloadButton = document.querySelector("#download-button");
 const downloadSvgButton = document.querySelector("#download-svg-button");
+const pngResolution = document.querySelector("#png-resolution");
 
 let currentUrl = "";
 let qrCode;
@@ -24,6 +25,8 @@ let logoDataUrl = "";
 let logoAspectRatio = 1;
 
 const QR_RENDER_SIZE = 158;
+const QR_DARK_COLOR = "#202322";
+const QR_LIGHT_COLOR = "#ffffff";
 
 function parseUrl(value) {
   const withProtocol = /^(https?:)?\/\//i.test(value) ? value : `https://${value}`;
@@ -42,8 +45,8 @@ function showQr(url, level) {
     text: url,
     width: QR_RENDER_SIZE,
     height: QR_RENDER_SIZE,
-    colorDark: "#202322",
-    colorLight: "#ffffff",
+    colorDark: QR_DARK_COLOR,
+    colorLight: QR_LIGHT_COLOR,
     correctLevel: QRCode.CorrectLevel[level],
   });
 
@@ -201,7 +204,7 @@ function drawLogo(context, qrSize, offset) {
   const scale = Math.min(availableWidth / logoImage.naturalWidth, availableHeight / logoImage.naturalHeight);
   const imageWidth = logoImage.naturalWidth * scale;
   const imageHeight = logoImage.naturalHeight * scale;
-  context.fillStyle = "#ffffff";
+  context.fillStyle = QR_LIGHT_COLOR;
   context.fillRect(bounds.snappedX + offset, bounds.snappedY + offset, bounds.snappedWidth, bounds.snappedHeight);
   context.drawImage(
     logoImage,
@@ -213,21 +216,40 @@ function drawLogo(context, qrSize, offset) {
 }
 
 downloadButton.addEventListener("click", () => {
-  const canvas = qrContainer.querySelector("canvas");
-  if (!canvas || !moduleCount) return;
+  const model = qrCode?._oQRCode;
+  if (!model?.modules || !moduleCount) return;
 
-  const quietZone = Math.ceil(canvas.width / moduleCount);
+  // Render rechtstreeks vanuit de module-data op de gekozen resolutie, zodat
+  // het resultaat altijd scherp is (geen opschaal-vervaging van de kleine
+  // preview-canvas).
+  const targetSize = Math.round(Number(pngResolution.value)) || 1024;
+  const quietZoneModules = 1;
+  const totalModules = moduleCount + quietZoneModules * 2;
+  const tile = targetSize / totalModules;
+
   const image = document.createElement("canvas");
-  image.width = canvas.width + quietZone * 2;
-  image.height = canvas.height + quietZone * 2;
+  image.width = Math.round(totalModules * tile);
+  image.height = image.width;
 
   const context = image.getContext("2d");
-  context.fillStyle = "#ffffff";
+  context.fillStyle = QR_LIGHT_COLOR;
   context.fillRect(0, 0, image.width, image.height);
-  context.drawImage(canvas, quietZone, quietZone);
-  drawLogo(context, canvas.width, quietZone);
+  context.fillStyle = QR_DARK_COLOR;
 
-  downloadFile(image.toDataURL("image/png"), "qr-code.png");
+  for (let row = 0; row < moduleCount; row += 1) {
+    for (let column = 0; column < moduleCount; column += 1) {
+      if (!model.modules[row][column]) continue;
+      const x0 = Math.round((column + quietZoneModules) * tile);
+      const x1 = Math.round((column + quietZoneModules + 1) * tile);
+      const y0 = Math.round((row + quietZoneModules) * tile);
+      const y1 = Math.round((row + quietZoneModules + 1) * tile);
+      context.fillRect(x0, y0, x1 - x0, y1 - y0);
+    }
+  }
+
+  drawLogo(context, moduleCount * tile, quietZoneModules * tile);
+
+  downloadFile(image.toDataURL("image/png"), `qr-code-${image.width}x${image.height}.png`);
 });
 
 downloadSvgButton.addEventListener("click", () => {
