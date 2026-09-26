@@ -10,18 +10,18 @@
     <link rel="stylesheet" href="style.css">
 
 </head>
-<body>
+<body data-i18n-title="meta.title">
     <div class="bg-gradient"></div>
 
     <header>
-        <h1>Project Hub</h1>
-        <p>A collection of mini-apps and experiments built with modern web technologies.</p>
+        <h1 data-i18n="header.title">Project Hub</h1>
+        <p data-i18n="header.subtitle">A collection of mini-apps and experiments built with modern web technologies.</p>
     </header>
 
     <div class="grid">
         <!-- QR Code Scanner -->
         <a href="qr-code-scanner/index.html" class="card">
-            <div class="badge">Active</div>
+            <div class="badge" data-i18n="cards.scanner.badge">Active</div>
             <div class="card-icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"></rect>
@@ -31,11 +31,11 @@
                 </svg>
             </div>
             <div>
-                <h2>QR Code Scanner</h2>
-                <p>A premium, camera-based QR scanner with real-time detection and glassmorphic UI.</p>
+                <h2 data-i18n="cards.scanner.title">QR Code Scanner</h2>
+                <p data-i18n="cards.scanner.description">A premium, camera-based QR scanner with real-time detection and glassmorphic UI.</p>
             </div>
             <div class="card-footer">
-                Launch App
+                <span data-i18n="cards.scanner.cta">Launch App</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -45,7 +45,7 @@
 
         <!-- QR Code Generator -->
         <a href="qr-code-generator/index.html" class="card">
-            <div class="badge">New</div>
+            <div class="badge" data-i18n="cards.generator.badge">New</div>
             <div class="card-icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"></rect>
@@ -59,11 +59,11 @@
                 </svg>
             </div>
             <div>
-                <h2>QR Code Generator</h2>
-                <p>Create a scannable QR code for any URL in seconds, with an optional logo.</p>
+                <h2 data-i18n="cards.generator.title">QR Code Generator</h2>
+                <p data-i18n="cards.generator.description">Create a scannable QR code for any URL in seconds, with an optional logo.</p>
             </div>
             <div class="card-footer">
-                Launch App
+                <span data-i18n="cards.generator.cta">Launch App</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -73,7 +73,7 @@
 
         <!-- Number Match Game -->
         <a href="number-match/index.html" class="card">
-            <div class="badge">New</div>
+            <div class="badge" data-i18n="cards.numberMatch.badge">New</div>
             <div class="card-icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -84,11 +84,11 @@
                 </svg>
             </div>
             <div>
-                <h2>Number Match</h2>
-                <p>A challenging logic puzzle. Clear the board by matching pairs of numbers.</p>
+                <h2 data-i18n="cards.numberMatch.title">Number Match</h2>
+                <p data-i18n="cards.numberMatch.description">A challenging logic puzzle. Clear the board by matching pairs of numbers.</p>
             </div>
             <div class="card-footer">
-                Play Game
+                <span data-i18n="cards.numberMatch.cta">Play Game</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -98,7 +98,7 @@
 
         <!-- Coming Soon -->
         <div class="card card-disabled">
-            <div class="badge">Next Up</div>
+            <div class="badge" data-i18n="cards.comingSoon.badge">Next Up</div>
             <div class="card-icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -107,10 +107,16 @@
                 </svg>
             </div>
             <div>
-                <h2>More Coming Soon</h2>
-                <p>New experiments and utility apps are being developed. Stay tuned!</p>
+                <h2 data-i18n="cards.comingSoon.title">More Coming Soon</h2>
+                <p data-i18n="cards.comingSoon.description">New experiments and utility apps are being developed. Stay tuned!</p>
             </div>
         </div>
     </div>
+
+    <script src="i18n.js"></script>
+    <script src="translations.js"></script>
+    <script>
+        I18N.init(window.HUB_DICT, { switcherPrepend: true });
+    </script>
 </body>
 </html>

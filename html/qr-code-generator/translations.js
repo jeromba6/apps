@@ -1,0 +1,88 @@
+window.GENERATOR_DICT = {
+    en: {
+        meta: { title: 'QR Code Generator | jvgemert' },
+        header: {
+            back: 'Hub',
+            title: 'QR Code Generator',
+            subtitle: 'Create a scannable QR code for any URL in seconds, including your own logo.',
+        },
+        form: {
+            badge: 'Settings',
+            urlLabel: 'Website URL',
+            urlPlaceholder: 'https://yourwebsite.com',
+            generateButton: 'Generate',
+            correctionLabel: 'Error correction',
+            correction: {
+                l: 'Low — recovers up to 7%',
+                m: 'Medium — recovers up to 15%',
+                q: 'High — recovers up to 25%',
+                h: 'Very high — recovers up to 30%',
+            },
+            logoLabel: 'Logo in the center',
+            optional: 'optional',
+            removeLogo: 'Remove',
+            logoSizeLabel: 'Logo size',
+            logoMarginLabel: 'White margin around logo',
+            errors: {
+                invalidLogoType: 'Please choose a PNG, JPG, WebP or SVG logo.',
+                logoTooLarge: 'Please choose a logo of 2 MB or smaller.',
+                invalidUrl: 'Enter a valid URL, e.g. https://yourwebsite.com.',
+            },
+        },
+        result: {
+            badge: 'Result',
+            qrAriaLabel: 'Generated QR code',
+            logoAlt: 'Chosen logo',
+            heading: 'Your QR code is ready',
+            resolutionLabel: 'PNG resolution',
+            downloadPng: 'Download PNG',
+            downloadSvg: 'Download SVG',
+        },
+        footer: {
+            note: 'Your URL and logo never leave your browser — everything is generated locally.',
+        },
+    },
+    nl: {
+        meta: { title: 'QR Code Generator | jvgemert' },
+        header: {
+            back: 'Hub',
+            title: 'QR Code Generator',
+            subtitle: 'Maak in seconden een scanbare QR-code voor iedere URL, inclusief eigen logo.',
+        },
+        form: {
+            badge: 'Instellingen',
+            urlLabel: 'Website-URL',
+            urlPlaceholder: 'https://jouwwebsite.nl',
+            generateButton: 'Genereer',
+            correctionLabel: 'Foutcorrectie',
+            correction: {
+                l: 'Laag — herstelt tot 7%',
+                m: 'Gemiddeld — herstelt tot 15%',
+                q: 'Hoog — herstelt tot 25%',
+                h: 'Zeer hoog — herstelt tot 30%',
+            },
+            logoLabel: 'Logo in het midden',
+            optional: 'optioneel',
+            removeLogo: 'Verwijderen',
+            logoSizeLabel: 'Grootte van logo',
+            logoMarginLabel: 'Witte marge rond logo',
+            errors: {
+                invalidLogoType: 'Kies een PNG-, JPG-, WebP- of SVG-logo.',
+                logoTooLarge: 'Kies een logo van maximaal 2 MB.',
+                invalidUrl: 'Vul een geldige URL in, bijvoorbeeld https://jouwwebsite.nl.',
+            },
+        },
+        result: {
+            badge: 'Resultaat',
+            qrAriaLabel: 'Gegenereerde QR-code',
+            logoAlt: 'Gekozen logo',
+            heading: 'Je QR-code is klaar',
+            resolutionLabel: 'PNG-resolutie',
+            downloadPng: 'Download PNG',
+            downloadSvg: 'Download SVG',
+        },
+        footer: {
+            note: 'Je URL en logo verlaten je browser niet — alles wordt lokaal gegenereerd.',
+        },
+    },
+};

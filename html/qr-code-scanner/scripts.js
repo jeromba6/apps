@@ -53,29 +53,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderTechnicalInfo = (readResult) => {
         techInfoGrid.innerHTML = '';
         const info = getQrTechnicalInfo(readResult);
+        const { t } = window.APP_I18N;
+        const unknown = t('tech.unknown');
 
-        addTechRow('Versie / grid', `${info.version} (${info.moduleGrid} modules)`);
-        addTechRow('Foutcorrectieniveau', info.ecLevel);
+        const moduleGrid = info.moduleGrid ? t('tech.modules', { count: `${info.moduleGrid} x ${info.moduleGrid}` }) : unknown;
+        addTechRow(t('tech.labels.versionGrid'), `${info.version ?? unknown} (${moduleGrid})`);
+        addTechRow(t('tech.labels.ecLevel'), info.ecLevel || unknown);
         addTechRow(
-            'Redundantie',
-            info.redundancyPercent !== null ? `${info.redundancyPercent.toFixed(1)}%` : 'onbekend'
+            t('tech.labels.redundancy'),
+            info.redundancyPercent !== null ? `${info.redundancyPercent.toFixed(1)}%` : unknown
         );
-        addTechRow('Databytes gebruikt', `${info.dataBytes} bytes`);
+        addTechRow(t('tech.labels.dataBytes'), t('tech.bytes', { count: info.dataBytes }));
         addTechRow(
-            'Codewoord-capaciteit',
-            info.capacityBytes !== null ? `${info.capacityBytes} bytes` : 'onbekend'
-        );
-        addTechRow(
-            'Bezetting',
-            info.usagePercent !== null ? `${info.usagePercent.toFixed(1)}% gebruikt` : 'onbekend'
+            t('tech.labels.capacity'),
+            info.capacityBytes !== null ? t('tech.bytes', { count: info.capacityBytes }) : unknown
         );
         addTechRow(
-            'Encoderingsmodus',
-            info.encodingModeEstimated ? `${info.encodingMode} (geschat)` : info.encodingMode
+            t('tech.labels.usage'),
+            info.usagePercent !== null ? t('tech.percentUsed', { percent: info.usagePercent.toFixed(1) }) : unknown
         );
-        addTechRow('Maskerpatroon', info.maskPattern !== null ? `${info.maskPattern}` : 'onbekend');
-        addTechRow('Gespiegeld', info.isMirrored ? 'ja' : 'nee');
-        addTechRow('ECI aanwezig', info.hasECI ? 'ja' : 'nee');
+        const encodingLabel = t(`encoding.${info.encodingMode}`);
+        addTechRow(
+            t('tech.labels.encodingMode'),
+            info.encodingModeEstimated ? `${encodingLabel} ${t('tech.estimated')}` : encodingLabel
+        );
+        addTechRow(t('tech.labels.maskPattern'), info.maskPattern !== null ? `${info.maskPattern}` : unknown);
+        addTechRow(t('tech.labels.mirrored'), info.isMirrored ? t('tech.yes') : t('tech.no'));
+        addTechRow(t('tech.labels.eci'), info.hasECI ? t('tech.yes') : t('tech.no'));
 
         techInfo.hidden = false;
     };
@@ -152,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Failed to start scanning', err);
             placeholderIcon.hidden = false;
             scanAnimation.style.display = 'none';
-            alert("Could not access camera. Please ensure you've granted permissions.");
+            alert(window.APP_I18N.t('scanner.cameraError'));
         }
     };
 
@@ -199,11 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (results.length > 0 && results[0].isValid) {
                 handleDecodedResult(results[0]);
             } else {
-                showUploadError('Geen geldige QR-code gevonden in deze afbeelding.');
+                showUploadError(window.APP_I18N.t('upload.noQr'));
             }
         } catch (err) {
             console.error('Failed to decode uploaded image', err);
-            showUploadError('Kon deze afbeelding niet lezen. Probeer een andere QR-afbeelding.');
+            showUploadError(window.APP_I18N.t('upload.readError'));
         }
     };
 
@@ -223,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = resultContent.textContent;
         navigator.clipboard.writeText(text).then(() => {
             const originalText = copyBtn.textContent;
-            copyBtn.textContent = 'Copied!';
+            copyBtn.textContent = window.APP_I18N.t('result.copiedButton');
             setTimeout(() => {
                 copyBtn.textContent = originalText;
             }, 2000);

@@ -155,13 +155,13 @@ logoInput.addEventListener("change", () => {
 
   if (!["image/png", "image/jpeg", "image/webp", "image/svg+xml"].includes(file.type)) {
     clearLogo();
-    error.textContent = "Kies een PNG-, JPG-, WebP- of SVG-logo.";
+    error.textContent = window.APP_I18N.t("form.errors.invalidLogoType");
     return;
   }
 
   if (file.size > 2 * 1024 * 1024) {
     clearLogo();
-    error.textContent = "Kies een logo van maximaal 2 MB.";
+    error.textContent = window.APP_I18N.t("form.errors.logoTooLarge");
     return;
   }
 
@@ -183,7 +183,7 @@ form.addEventListener("submit", (event) => {
     showQr(parseUrl(input.value.trim()), logoDataUrl ? "H" : correctionLevel.value);
   } catch {
     result.hidden = true;
-    error.textContent = "Vul een geldige URL in, bijvoorbeeld https://jouwwebsite.nl.";
+    error.textContent = window.APP_I18N.t("form.errors.invalidUrl");
     input.focus();
   }
 });

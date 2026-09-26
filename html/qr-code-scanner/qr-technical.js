@@ -54,10 +54,10 @@ function getBlockTotals(version, ecLevel) {
  * standaard QR-encoderregels (kleinste passende modus).
  */
 function guessEncodingMode(text) {
-    if (text.length === 0) return { mode: 'Byte', estimated: true };
-    if (NUMERIC_CHARS.test(text)) return { mode: 'Numeriek', estimated: true };
-    if (ALPHANUMERIC_CHARS.test(text)) return { mode: 'Alfanumeriek', estimated: true };
-    return { mode: 'Byte', estimated: true };
+    if (text.length === 0) return { mode: 'byte', estimated: true };
+    if (NUMERIC_CHARS.test(text)) return { mode: 'numeric', estimated: true };
+    if (ALPHANUMERIC_CHARS.test(text)) return { mode: 'alphanumeric', estimated: true };
+    return { mode: 'byte', estimated: true };
 }
 
 /**
@@ -94,9 +94,9 @@ export function getQrTechnicalInfo(readResult) {
     }
 
     return {
-        version: Number.isFinite(version) ? version : versionRaw || 'onbekend',
-        moduleGrid: modules ? `${modules} x ${modules}` : 'onbekend',
-        ecLevel: ecLevel || 'onbekend',
+        version: Number.isFinite(version) ? version : (versionRaw || null),
+        moduleGrid: modules || null,
+        ecLevel: ecLevel || null,
         redundancyPercent,
         dataBytes,
         capacityBytes,

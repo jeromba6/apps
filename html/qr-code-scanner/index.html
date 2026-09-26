@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
 </head>
-<body>
+<body data-i18n-title="meta.title">
     <div class="bg-gradient"></div>
 
     <header>
@@ -19,15 +19,15 @@
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            Hub
+            <span data-i18n="header.back">Hub</span>
         </a>
-        <h1>QR Scanner</h1>
-        <p>Scan een QR-code met je camera of upload een afbeelding.</p>
+        <h1 data-i18n="header.title">QR Scanner</h1>
+        <p data-i18n="header.subtitle">Scan een QR-code met je camera of upload een afbeelding.</p>
     </header>
 
     <main class="scanner-main">
         <section class="card card-scanner">
-            <div class="badge">Scanner</div>
+            <div class="badge" data-i18n="scanner.badge">Scanner</div>
             <div class="card-icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/>
@@ -49,15 +49,17 @@
 
             <div class="actions">
                 <button id="scan-btn" type="button">
-                    Start Scanning
+                    <span data-i18n="scanner.startButton">Start Scanning</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M23 7l-7 5 7 5V7z"></path>
                         <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                     </svg>
                 </button>
-                <button id="stop-btn" type="button" class="button-secondary" hidden>Stop Scanner</button>
+                <button id="stop-btn" type="button" class="button-secondary" hidden>
+                    <span data-i18n="scanner.stopButton">Stop Scanner</span>
+                </button>
                 <button id="upload-btn" type="button" class="button-secondary">
-                    Upload QR-afbeelding
+                    <span data-i18n="scanner.uploadButton">Upload QR-afbeelding</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="17 8 12 3 7 8"></polyline>
@@ -70,26 +72,31 @@
             <p id="upload-error" class="error" role="alert" hidden></p>
 
             <div id="result-container" class="result-block" hidden>
-                <h3>Scan resultaat</h3>
+                <h3 data-i18n="result.heading">Scan resultaat</h3>
                 <div id="result-content" class="result-content"></div>
                 <div class="actions">
-                    <button id="copy-btn" type="button" class="button-secondary">Copy Content</button>
-                    <a id="visit-btn" href="#" target="_blank" class="button-secondary" hidden>Visit URL</a>
+                    <button id="copy-btn" type="button" class="button-secondary" data-i18n="result.copyButton">Copy Content</button>
+                    <a id="visit-btn" href="#" target="_blank" class="button-secondary" hidden data-i18n="result.visitButton">Visit URL</a>
                 </div>
 
                 <div id="tech-info" class="tech-info" hidden>
-                    <h4>Technische informatie</h4>
+                    <h4 data-i18n="tech.heading">Technische informatie</h4>
                     <div id="tech-info-grid" class="tech-info-grid"></div>
-                    <p class="tech-info-note">Redundantie = percentage van de codewoorden dat foutcorrectiedata is (geen gebruikersdata). Codewoord-capaciteit is de ruwe databytes-capaciteit voor deze versie/ECC-combinatie (incl. ~1-2 bytes overhead voor mode-/lengte-indicator, die niet in "databytes gebruikt" is meegeteld). De encoderingsmodus is een schatting op basis van de inhoud, niet uitgelezen uit de originele encoder.</p>
+                    <p class="tech-info-note" data-i18n="tech.note">Redundantie = percentage van de codewoorden dat foutcorrectiedata is (geen gebruikersdata). Codewoord-capaciteit is de ruwe databytes-capaciteit voor deze versie/ECC-combinatie (incl. ~1-2 bytes overhead voor mode-/lengte-indicator, die niet in "databytes gebruikt" is meegeteld). De encoderingsmodus is een schatting op basis van de inhoud, niet uitgelezen uit de originele encoder.</p>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>Alles wordt lokaal in je browser gescand — er wordt niets geüpload naar een server.</p>
+        <p data-i18n="footer.note">Alles wordt lokaal in je browser gescand — er wordt niets geüpload naar een server.</p>
     </footer>
 
+    <script src="../i18n.js"></script>
+    <script src="translations.js"></script>
+    <script>
+        window.APP_I18N = I18N.init(window.SCANNER_DICT);
+    </script>
     <!-- QR decoding: zxing-wasm (loaded as ES module in scripts.js) -->
     <script type="module" src="scripts.js"></script>
 </body>

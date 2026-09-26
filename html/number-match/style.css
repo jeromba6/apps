@@ -295,6 +295,40 @@ header h1 {
     to { opacity: 1; }
 }
 
+.lang-switcher {
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    margin-top: 0.75rem;
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lang-btn {
+    padding: 0.35rem 0.75rem;
+    border: none;
+    border-radius: 100px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    color: var(--text-main);
+    transform: none;
+    box-shadow: none;
+}
+
+.lang-btn.active {
+    background: var(--primary);
+    color: #fff;
+}
+
 /* Responsive adjustments */
 @media (max-width: 400px) {
     .board {

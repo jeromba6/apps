@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-i18n-title="meta.title">
     <div class="background-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
@@ -25,24 +25,24 @@
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                    Hub
+                    <span data-i18n="header.back">Hub</span>
                 </a>
                 <div class="stats-container">
                     <div class="stat-item">
-                        <span class="stat-label">LEVEL</span>
+                        <span class="stat-label" data-i18n="stats.level">LEVEL</span>
                         <span id="level" class="stat-value">1</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">ADDS</span>
+                        <span class="stat-label" data-i18n="stats.adds">ADDS</span>
                         <span id="adds-left" class="stat-value">5</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">SCORE</span>
+                        <span class="stat-label" data-i18n="stats.score">SCORE</span>
                         <span id="score" class="stat-value">0</span>
                     </div>
                 </div>
             </div>
-            <h1>Number Match</h1>
+            <h1 data-i18n="header.title">Number Match</h1>
         </header>
 
         <div class="board-wrapper">
@@ -57,7 +57,7 @@
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
-                Add Numbers
+                <span data-i18n="controls.addNumbers">Add Numbers</span>
             </button>
             <button id="restart-btn" class="btn btn-secondary">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -69,14 +69,19 @@
 
         <div id="game-over" class="modal hidden">
             <div class="modal-content">
-                <h2>Well Done!</h2>
-                <p>You cleared the board!</p>
-                <div class="final-score">Score: <span id="final-score">0</span></div>
+                <h2 id="game-over-title">Well Done!</h2>
+                <p id="game-over-message">You cleared the board!</p>
+                <div class="final-score"><span data-i18n="modal.scoreLabel">Score</span>: <span id="final-score">0</span></div>
                 <button id="play-again-btn" class="btn btn-primary">Play Again</button>
             </div>
         </div>
     </main>
 
+    <script src="../i18n.js"></script>
+    <script src="translations.js"></script>
+    <script>
+        window.APP_I18N = I18N.init(window.NUMBER_MATCH_DICT, { switcherTarget: document.querySelector('header'), switcherPrepend: false });
+    </script>
     <script src="scripts.js"></script>
 </body>
 </html>

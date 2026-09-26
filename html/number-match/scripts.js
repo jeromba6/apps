@@ -300,15 +300,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const showGameOver = (isWin) => {
+        const { t } = window.APP_I18N;
         if (isWin) {
-            gameOverModal.querySelector('h2').textContent = "Level " + level + " Cleared!";
-            gameOverModal.querySelector('p').textContent = "Ready for a harder puzzle?";
-            playAgainBtn.textContent = "Start Level " + (level + 1);
+            gameOverModal.querySelector('h2').textContent = t('modal.levelCleared', { level });
+            gameOverModal.querySelector('p').textContent = t('modal.readyHarder');
+            playAgainBtn.textContent = t('modal.startLevel', { level: level + 1 });
             playAgainBtn.onclick = () => initGame(true);
         } else {
-            gameOverModal.querySelector('h2').textContent = "Game Over!";
-            gameOverModal.querySelector('p').textContent = "No more moves possible.";
-            playAgainBtn.textContent = "Try Again";
+            gameOverModal.querySelector('h2').textContent = t('modal.gameOver');
+            gameOverModal.querySelector('p').textContent = t('modal.noMoves');
+            playAgainBtn.textContent = t('modal.tryAgain');
             playAgainBtn.onclick = () => initGame(false);
         }
         finalScoreElement.textContent = score;
