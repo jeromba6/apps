@@ -5,6 +5,7 @@ window.NUMBER_MATCH_DICT = {
             back: 'Hub',
             title: 'Number Match',
         },
+        nav: { donate: 'Donate' },
         stats: {
             level: 'LEVEL',
             adds: 'ADDS',
@@ -30,6 +31,7 @@ window.NUMBER_MATCH_DICT = {
             back: 'Hub',
             title: 'Number Match',
         },
+        nav: { donate: 'Doneer' },
         stats: {
             level: 'LEVEL',
             adds: "EXTRA'S",

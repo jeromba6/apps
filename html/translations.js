@@ -1,6 +1,7 @@
 window.HUB_DICT = {
     en: {
         meta: { title: 'Project Hub | jvgemert' },
+        nav: { donate: 'Donate' },
         header: {
             title: 'Project Hub',
             subtitle: 'A collection of mini-apps and experiments built with modern web technologies.',
@@ -33,6 +34,7 @@ window.HUB_DICT = {
     },
     nl: {
         meta: { title: 'Project Hub | jvgemert' },
+        nav: { donate: 'Doneer' },
         header: {
             title: 'Project Hub',
             subtitle: 'Een verzameling mini-apps en experimenten, gebouwd met moderne webtechnologie.',

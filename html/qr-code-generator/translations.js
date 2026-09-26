@@ -6,6 +6,7 @@ window.GENERATOR_DICT = {
             title: 'QR Code Generator',
             subtitle: 'Create a scannable QR code for any URL in seconds, including your own logo.',
         },
+        nav: { donate: 'Donate' },
         form: {
             badge: 'Settings',
             urlLabel: 'Website URL',
@@ -49,6 +50,7 @@ window.GENERATOR_DICT = {
             title: 'QR Code Generator',
             subtitle: 'Maak in seconden een scanbare QR-code voor iedere URL, inclusief eigen logo.',
         },
+        nav: { donate: 'Doneer' },
         form: {
             badge: 'Instellingen',
             urlLabel: 'Website-URL',

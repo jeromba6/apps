@@ -6,6 +6,7 @@ window.SCANNER_DICT = {
             title: 'QR Scanner',
             subtitle: 'Scan a QR code with your camera or upload an image.',
         },
+        nav: { donate: 'Donate' },
         scanner: {
             badge: 'Scanner',
             startButton: 'Start Scanning',
@@ -62,6 +63,7 @@ window.SCANNER_DICT = {
             title: 'QR Scanner',
             subtitle: 'Scan een QR-code met je camera of upload een afbeelding.',
         },
+        nav: { donate: 'Doneer' },
         scanner: {
             badge: 'Scanner',
             startButton: 'Start Scanning',
